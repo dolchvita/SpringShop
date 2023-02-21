@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<script>
+    function init(){
+        let app1=new Vue({
+            el:"#app1",
+            data:{
+                dan:2,
+
+                itemList:[
+                    {
+                        "title":"Hi",
+                        "writer":"scott"
+                    },
+                    {
+                        "title":"Hi",
+                        "writer":"scott"
+                    },
+                    {
+                        "title":"Hi",
+                        "writer":"scott"
+                    }
+                ]          
+            },
+
+            methods:{
+                setGugu:function(){
+                    this.dan++;
+                }
+            }
+        });
+    }
+
+    $(function(){
+        init();
+    });
+
+</script>
+</head>
+<body>
+    <div id="app1">
+        <ul>
+            <!-- 이벤트 함수 뒤는 = 수식자를 사용! -->
+            <li v-for="item in itemList">
+                {{item.title}}
+                {{item.writer}}
+            </li>
+        </ul>
+        <button v-on:click="setGugu">구구단 출력</button>
+        <div v-for="i in 9">
+            {{dan+"*"+i+"="+(dan*i)}}
+        </div>
+    </div>
+</body>
+</html>
