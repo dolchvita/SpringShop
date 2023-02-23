@@ -1,5 +1,7 @@
 package com.edu.springshop.domain;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -12,5 +14,6 @@ public class Product {
 	private String detail;
 	private Category category;
 	
-
+	private MultipartFile[] photo;
+	
 }

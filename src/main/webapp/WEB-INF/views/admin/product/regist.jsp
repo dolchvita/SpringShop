@@ -1,4 +1,10 @@
+<%@page import="com.edu.springshop.domain.Category"%>
+<%@page import="java.util.List"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
+<%
+	List<Category> categoryList=(List)request.getAttribute("categoryList");
+	System.out.println("여기는 서비스~~"+categoryList);
+%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,11 +79,11 @@
 
 							<div class="form-group row">
 								<select class="form-control" name="category_idx">
-									<option>option 1</option>
-									<option>option 2</option>
-									<option>option 3</option>
-									<option>option 4</option>
-									<option>option 5</option>
+									<option value="0">카테고리 선택</option>
+									<%for(Category category:categoryList){ %>
+									<option value="<%=category.getCategory_idx()%>"><%=category.getCategory_name() %></option>
+									<%} %>
+
 								</select>
 							</div>
 
@@ -127,11 +133,9 @@
 
 
 							<div class="form-group row">
-								<div class="col-sm-1">
-									<button type="button" class="btn btn-block btn-danger btn-lg">등록</button>							
-								</div>
-								<div class="col-sm-1">
-									<button type="button" class="btn btn-block btn-danger btn-lg">목록</button>									
+								<div class="col">
+									<button type="button" class="btn btn-danger btn-md" id="bt_regist">등록</button>							
+									<button type="button" class="btn btn-danger btn-md" ud="bt_list">목록</button>									
 								</div>
 							</div>							
 							
@@ -201,31 +205,86 @@
 	}
 	
 	
+	
+	/*----------------------
+		미리보기
+	----------------------*/ 
 	function preview(files){
 		
 		for(let i=0; i<files.length; i++){
 			let file=files[i];
 			
-			let reader=new FileReader();
-			reader.onload=function(e){
-				console.log(file);
-				key++;
-				
-				let json=[];
-				json['src']=e.target.result;
-				json['name']=file.name;
-				json['file']=file;
-				json['key']=key;
-				
-				app1.imageList.push(json);
-			};
+			if(checkDuplicate(file)<1){
 			
-			reader.readAsDataURL(file);
-			console.log("앱 1의 이미지 리스트~~~", app1.imageList);
+				let reader=new FileReader();
+				reader.onload=function(e){
+					console.log(file);
+					key++;
+					
+					let json=[];
+					json['src']=e.target.result;
+					json['name']=file.name;
+					json['file']=file;
+					json['key']=key;
+					
+					app1.imageList.push(json);
+				};
+				
+				reader.readAsDataURL(file);
+				console.log("앱 1의 이미지 리스트~~~", app1.imageList);
+				
+			}
+			
 		}
 		
 	}
 	
+	
+	function checkDuplicate(file){
+		let count=0;
+		for(let i=0; i<app1.imageList.length; i++){
+			let json=app1.imageList[i];
+			if(file.name==json.name){
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	
+	/*----------------------
+		등록
+	----------------------*/ 
+	function regist(){
+		// 파일 업로드를 커스터 마이징
+		let formData=new FormData();
+									// 명칭 주의!!
+		formData.append("category.category_idx", $("select[name='category_idx']").val());
+		formData.append("product_name", $("input[name='product_name']").val());
+		formData.append("brand", $("input[name='brand']").val());
+		formData.append("price", $("input[name='price']").val());
+		formData.append("discount", $("input[name='discount']").val());
+		formData.append("detail", $("textarea[name='detail']").val());
+		
+	
+ 		for(let i=0; i<app1.imageList.length; i++){			
+			let json=app1.imageList[i];
+			formData.append("photo", json.file);
+		}
+ 		
+ 		
+		$.ajax({
+			url:"/admin/rest/product",
+			type:"post",
+			contentType:false,
+			processData:false,
+			data:formData,
+			success:function(result, status, xhr){
+				alert(result);
+			}
+		});
+		
+	}
 	
 	
 	$(function(){
@@ -239,6 +298,10 @@
 		
 		$("input[name='file']").change(function(){
 			preview(this.files);
+		});
+		
+		$("#bt_regist").click(function(){
+			regist();
 		});
 		
 	});

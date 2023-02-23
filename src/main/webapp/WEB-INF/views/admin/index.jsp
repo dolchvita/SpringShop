@@ -5,20 +5,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AdminLTE 3 | Dashboard</title>
-<%@ include file="../inc/header_link.jsp"%>
+<%@ include file="./inc/header_link.jsp"%>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 	<div class="wrapper">
 
 		<!-- Preloader -->
-		<%@ include file="../inc/preloader.jsp" %>
+		<%@ include file="./inc/preloader.jsp" %>
 		
 		<!-- Navbar -->
-		<%@ include file="../inc/navbar.jsp" %>
+		<%@ include file="./inc/navbar.jsp" %>
 		<!-- /.navbar -->
 
 		<!-- Main Sidebar Container -->
-		<%@ include file="../inc/sidebar_left.jsp" %>
+		<%@ include file="./inc/sidebar_left.jsp" %>
 		
 		
 		<!-- Content Wrapper. Contains page content -->
@@ -606,14 +606,14 @@
 		</div>
 		<!-- /.content-wrapper -->
 		
-		<%@ include file="../inc/footer.jsp" %>		
+		<%@ include file="./inc/footer.jsp" %>		
 
 		<!-- Control Sidebar -->
-		<%@ include file="../inc/sidebar_right.jsp" %>
+		<%@ include file="./inc/sidebar_right.jsp" %>
 		<!-- /.control-sidebar -->
 	</div>
 	<!-- ./wrapper -->
-	<%@ include file="../inc/footer_link.jsp" %>
+	<%@ include file="./inc/footer_link.jsp" %>
 </body>
 </html>
 
