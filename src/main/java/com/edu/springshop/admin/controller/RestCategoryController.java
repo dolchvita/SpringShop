@@ -60,9 +60,6 @@ public class RestCategoryController {
 	// 수정 요청 처리
 	@PutMapping("/category")
 	public ResponseEntity<Message> edit(@RequestBody Category category) {
-
-		logger.info(" 수정 어떻게 날라오니~~~"+category);
-
 		categoryService.update(category);
 		Message message=new Message();
 		message.setMsg("수정 성공");
@@ -74,16 +71,12 @@ public class RestCategoryController {
 	// 삭제
 	@DeleteMapping("/category/{category_idx}")
 	public ResponseEntity<Message> delete(@PathVariable("category_idx") int category_idx){
-		logger.info("넘어온 아디이엑스~~~"+category_idx);
 		categoryService.delete(category_idx);
-		
 		Message message=new Message();
 		message.setMsg("삭제 성공");
 		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.OK);
 		return entity;
 	}
-	
-	
 	
 	
 	@ExceptionHandler(CategoryException.class)
@@ -93,7 +86,6 @@ public class RestCategoryController {
 
 		// HTTP 응답 정보를 보다 세밀하게 구성하고 싶다면 응답 메시지를 구성할 수 있는 객체를 지원한다!
 		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-		
 		return entity;
 	}
 	

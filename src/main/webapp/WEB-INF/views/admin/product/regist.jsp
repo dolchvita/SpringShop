@@ -135,7 +135,7 @@
 							<div class="form-group row">
 								<div class="col">
 									<button type="button" class="btn btn-danger btn-md" id="bt_regist">등록</button>							
-									<button type="button" class="btn btn-danger btn-md" ud="bt_list">목록</button>									
+									<button type="button" class="btn btn-danger btn-md" id="bt_list">목록</button>									
 								</div>
 							</div>							
 							
@@ -266,12 +266,10 @@
 		formData.append("discount", $("input[name='discount']").val());
 		formData.append("detail", $("textarea[name='detail']").val());
 		
-	
  		for(let i=0; i<app1.imageList.length; i++){			
 			let json=app1.imageList[i];
 			formData.append("photo", json.file);
 		}
- 		
  		
 		$.ajax({
 			url:"/admin/rest/product",
@@ -280,10 +278,9 @@
 			processData:false,
 			data:formData,
 			success:function(result, status, xhr){
-				alert(result);
+				alert(result.msg);
 			}
 		});
-		
 	}
 	
 	
@@ -302,6 +299,10 @@
 		
 		$("#bt_regist").click(function(){
 			regist();
+		});
+		
+		$("#bt_list").click(function(){
+			location.href="/admin/product/list";
 		});
 		
 	});

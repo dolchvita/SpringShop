@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<!-- jQuery library -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+<!-- Popper JS -->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<!-- Latest compiled JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- 제이쿼리 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+<!-- 뷰 -->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+<script>
+	let app1;
+	
+	// 재사용성이 있는 디자인 단위의 묶음인 컴포넌트 정의
+	// js 객체 선언 방법 이용 ES JS
+	const Row={
+			template:`
+				<tr>
+					<td><a href="#" v-on:click="getDetail(idx)">{{idx}}</a></td>
+					<td>{{name}}</td>
+				</tr>
+			`
+			// 2-1) 외부에서 전달된 태그의 속성을 받는다 --> 보관은 어떻게 할까?
+			, props : ['category_idx', 'category_name']
+			
+			// 2-3) 함수화시킨 데이터를 정의한다. 인스턴스마다 변수를 만든다 -- 이제 template이 접근할 수 있다
+			, data(){
+				return{
+					idx : this.category_idx,
+					name : this.category_name
+				}
+			},
+			
+			// 3 v-on을 사용하면, 이 클래스 내에서 매개변수를 전달할 수 있다
+			methods:{
+				getDetail:function(category_idx){
+					alert(category_idx);
+				}
+			}
+	};
+	// 추후 Row는 태그 형식으로 불러 사용할 수 있다
+
+	
+	function init(){
+		// 뷰 인스턴스 정의하면서 컴포넌트에 대한 설정도 함께 해보자
+		app1=new Vue({
+			el:"#app1",
+			
+			components:{
+				// Row라는 컴포넌트는 <row/> 태그로 사용할 예정
+				"row":Row
+			},
+			
+			data:{
+				categoryList:[],
+				name:"yeseo"
+			}
+		});
+	}
+	
+	
+	function getCategoryList(){
+		$.ajax({
+			url:"/vue/category.jsp",
+			type:"get",
+			success:function(result, status, xhr){
+				console.log(result);
+				app1.categoryList=result;
+			}
+		});
+	}
+	
+	
+	$(function(){
+		init();
+		$("#bt_load").click(function(){
+			getCategoryList();			
+		});
+	});
+	
+</script>
+</head>
+<body>
+    <div class="container" id="app1">
+		<button id="bt_load">불러오기</button><br>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th>category_idx</th>
+                    <th>category_name</th>
+                </tr>
+            </thead>
+            <tbody>
+            	
+            	<template v-for="category in categoryList">
+            	
+            		<!-- 2-2) 여기 선언한 것은 props 안으로 날라감
+            					  제이슨의 value는 [' ']으로 감싼다 -->
+					<row v-bind:category_idx="category['category_idx']" v-bind:category_name="category['category_name']" />
+            	</template>
+            	
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -43,11 +43,16 @@
 		</property>
 	</bean>
 
+
 	<bean id="mappingJackson2HttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 		<property name="supportedMediaTypes">
 			<value>application/json;charset=utf-8</value>
 		</property>
 	</bean>
+	
+	
+	<!-- util 패키지에 있는 @Component를 인식하기 위한 빈 등록! -->
+	<bean id="fileManager" class="com.edu.springshop.util.FileManager"/>
 	
 	
 </beans>

@@ -185,10 +185,17 @@
 					category:this.json
 				}
 			},
+			
 			methods:{
 				getDetail:function(category){
 					$("#form2 input[name='category_idx']").val(category.category_idx);
 					$("#form2 input[name='category_name']").val(category.category_name);
+				},
+				
+				updateData:function(){
+					this.$nextTick(function(){
+						getList();
+					});
 				}
 			}
 	}
