@@ -1,6 +1,11 @@
 
+<%@page import="com.edu.springshop.domain.Pimg"%>
+<%@page import="com.edu.springshop.domain.Product"%>
 <%@ page contentType="text/html; charset=UTF-8"%>
-
+<%
+	List<Product> productList=(List<Product>)request.getAttribute("productList");
+	System.out.println("상품 리스트 체크~~~"+productList);
+%>
 
 <!DOCTYPE html>
 <html lang="zxx">
@@ -199,23 +204,35 @@
                 
                 	<!-- row Start -->
                     <div class="row">
-                      <%//for(int i=0; i<productList.size(); i++){ %>
-                       <%//Product product=productList.get(i); %>
-                       
-                        <div class="col-lg-4 col-md-6">
-                        
-                            <div class="product__item">
 
-                                <div class="product__item__pic set-bg" data-setbg="/data/<%//=filename%>">
+
+						<%for(int i=0;i<productList.size();i++){ %>
+                    	<%Product product = productList.get(i); 
+                    	
+                    		System.out.println("지금 확인 중인 이미지 리스트~~~"+product.getPimgList());%>
+                    		
+                        <div class="col-lg-4 col-md-6">
+                            <div class="product__item">
+                            <%
+                            	String filename=null;
+                           		List<Pimg> pimgList = product.getPimgList();
+   	                         	if(pimgList.size() >0){
+                            		filename=pimgList.get(0).getFilename();
+                            		System.out.println("지금 확인 중인 파일이름~~~"+filename);
+                            	}else{
+                            		out.print("파일없");
+                            	}
+                            %>
+                                <div class="product__item__pic set-bg" data-setbg="/resources/data/<%=filename%>">
                                     <div class="label new">New</div>
                                     <ul class="product__hover">
-                                        <li><a href="img/shop/shop-1.jpg" class="image-popup"><span class="arrow_expand"></span></a></li>
+                                        <li><a href="/resources/data/<%=filename%>" class="image-popup"><span class="arrow_expand"></span></a></li>
                                         <li><a href="#"><span class="icon_heart_alt"></span></a></li>
-                                        <li><a href="javascript:addCart(<%//=product.getProduct_idx() %>)"><span class="icon_bag_alt"></span></a></li>
+                                        <li><a href="javascript:addCart(<%=product.getProduct_idx()%>)"><span class="icon_bag_alt"></span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6><a href="#"><%//=product.getProduct_name() %></a></h6>
+                                    <h6><a href="/shop/detail?product_idx=<%=product.getProduct_idx()%>"><%=product.getProduct_name() %></a></h6>
                                     <div class="rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -223,14 +240,13 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
                                     </div>
-                                    <div class="product__price"><%//=product.getPrice() %></div>
+                                    <div class="product__price">$ 59.0</div>
                                 </div>
-                            </div>                         
+                            </div>
                         </div>
-                    
-                      <%//} %>
-                        
-                        <div class="col-lg-12 text-center">
+                        <%} %>
+
+						<div class="col-lg-12 text-center">
                             <div class="pagination__option">
                                 <a href="#">1</a>
                                 <a href="#">2</a>

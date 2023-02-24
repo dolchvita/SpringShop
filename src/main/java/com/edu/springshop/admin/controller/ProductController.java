@@ -2,6 +2,8 @@ package com.edu.springshop.admin.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +13,16 @@ import com.edu.springshop.domain.Category;
 import com.edu.springshop.domain.Product;
 import com.edu.springshop.model.category.CategoryService;
 import com.edu.springshop.model.product.ProductDAO;
+import com.edu.springshop.model.product.ProductService;
 
 // 상품 관련 컨트롤러
 @Controller
 public class ProductController {
-	
+	private Logger logger=LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private CategoryService categoryService;
 	@Autowired
-	private ProductDAO productDAO;
+	private ProductService productService;
 	
 	
 	@GetMapping("/product/registform")
@@ -34,7 +37,7 @@ public class ProductController {
 	
 	@GetMapping("/product/list")
 	public ModelAndView getList() {
-		List<Product> productList=productDAO.selectAll();
+		List<Product> productList=productService.selectAll();
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("productList", productList);
 		mav.setViewName("admin/product/list");
@@ -44,7 +47,7 @@ public class ProductController {
 	@GetMapping("/product/detail")
 	public ModelAndView getDtaile(int product_idx) {
 		List<Category> categoryList=categoryService.selectAll();
-		Product product=productDAO.select(product_idx);
+		Product product=productService.select(product_idx);
 		
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("product", product);

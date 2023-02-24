@@ -3,7 +3,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%
 	List<Category> categoryList=(List)request.getAttribute("categoryList");
-	System.out.println("여기는 서비스~~"+categoryList);
+	//System.out.println("여기는 서비스~~"+categoryList);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -277,8 +277,18 @@
 			contentType:false,
 			processData:false,
 			data:formData,
+			
 			success:function(result, status, xhr){
 				alert(result.msg);
+			},
+			
+			error:function(xhr, status, err){
+				console.log("err ", err);
+				console.log("status ", status);
+				console.log("xhr ", xhr);
+				
+				let json=JSON.parse(xhr.responseText);		// string --> json
+				alert(json.msg);
 			}
 		});
 	}

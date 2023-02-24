@@ -171,6 +171,9 @@
 	<%@ include file="../inc/footer_link.jsp" %>
 	<script type="text/javascript">
 	let app1;
+	let selectedRow;		// 선택된 row (tr세트)
+	
+	
 	const row={
 			template:`
 				<tr>
@@ -190,6 +193,8 @@
 				getDetail:function(category){
 					$("#form2 input[name='category_idx']").val(category.category_idx);
 					$("#form2 input[name='category_name']").val(category.category_name);
+					console.log(this);
+					selectedRow=this;
 				},
 				
 				updateData:function(){
@@ -269,22 +274,14 @@
 			data:JSON.stringify(json),		// body 정보 구성
 			success:function(result, status, xhr){
 				alert("수정 성공");
-				getList();
+				
+				// 수정된 내용만 컴포넌트에 반영하기
+				selectedRow.category=json;
 			}
 		});
 	}
 	
 	
-	function edit(){
-		$("#form2 input[name='method']").val("PUT");
-		
-		// html의 form 태그는 GET/POST 만 지원
-		$("#form2").attr({
-			action:"/admin/category/edit",
-			methods:"post"
-		});
-		$("#form2"),submit();
-	}
 	
 	
 	function delAsync(){
@@ -313,7 +310,7 @@
 		});
 		
 		$("#bt_edit").click(function(){
-			if(confirm("삭제하시겠습니까?")){
+			if(confirm("수정하시겠습니까?")){
 				editAsync();
 			}
 		});

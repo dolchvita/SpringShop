@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.edu.springshop.domain.Product;
+import com.edu.springshop.exception.PimgException;
+import com.edu.springshop.exception.ProductException;
 import com.edu.springshop.exception.UploadException;
 import com.edu.springshop.model.category.CategoryService;
 import com.edu.springshop.model.product.ProductService;
@@ -34,8 +36,8 @@ public class RestProductController {
 	
 	// 상품 등록 요청 처리
 	@PostMapping("/product")
-	public Message getList(Product product, HttpServletRequest request) {
-		logger.info("컨트롤러가 받은 상품~~~"+product);
+	public Message regist(Product product, HttpServletRequest request) {
+		//logger.info("컨트롤러가 받은 상품~~~"+product);
 		
 		// 웹 환경과 관련된 코드이므로 , 컨트롤러의 책임이다!
 		ServletContext application=request.getSession().getServletContext();
@@ -47,8 +49,26 @@ public class RestProductController {
 		return null;
 	}
 
+	
+	/*----------------
+	 	예외
+	 ----------------*/
 	@ExceptionHandler(UploadException.class)
 	public ResponseEntity<Message> handle(UploadException e){
+		Message message=new Message();
+		message.setMsg(e.getMessage());
+		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		return entity;
+	}
+	@ExceptionHandler(ProductException.class)
+	public ResponseEntity<Message> handle(ProductException e){
+		Message message=new Message();
+		message.setMsg(e.getMessage());
+		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+		return entity;
+	}
+	@ExceptionHandler(PimgException.class)
+	public ResponseEntity<Message> handle(PimgException e){
 		Message message=new Message();
 		message.setMsg(e.getMessage());
 		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR);

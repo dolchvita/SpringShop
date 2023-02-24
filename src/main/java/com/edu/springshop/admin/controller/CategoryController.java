@@ -33,7 +33,6 @@ public class CategoryController {
 	public ModelAndView edit(Category category) {
 		logger.info("넘어온 카테고리!!!~~~~"+category);
 		
-		
 		return null;
 	}
 	
