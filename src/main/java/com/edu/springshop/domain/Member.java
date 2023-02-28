@@ -8,6 +8,7 @@ public class Member {
 	private String id;
 	private String pass;
 	private String name;
+	private String email;
 	private String add1;
 	private String addr2;
 	private String timestamp;

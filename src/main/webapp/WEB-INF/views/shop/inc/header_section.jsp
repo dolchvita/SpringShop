@@ -41,9 +41,9 @@
                         <div class="header__right__auth">
 
 
-                            <a href="./member/loginform.jsp">Login</a>
-                            <a href="./member/joinform.jsp">Register</a>
-                            <a href="./member/logout.jsp">Logout</a>
+                            <a href="/member/loginform">Login</a>
+                            <a href="/member/joinform">Register</a>
+                            <a href="/member/logout">Logout</a>
 
                         
                         </div>

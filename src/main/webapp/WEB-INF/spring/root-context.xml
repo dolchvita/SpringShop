@@ -28,6 +28,7 @@
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean" />
 	</bean>
 	
+	
 	<!-- 스프링에서 트랜잭션을 적용하는 방법
 			1) 선언적 방법 (xml 설정파일) :
 			2) 어노테이션 적용법 : -->
@@ -61,5 +62,31 @@
 	<!-- util 패키지에 있는 @Component를 인식하기 위한 빈 등록! -->
 	<bean id="fileManager" class="com.edu.springshop.util.FileManager"/>
 	
+	<!-- 암호화 처리 빈 등록 -->
+	<bean id="passConverter" class="com.edu.springshop.util.PassConverter"/>
+	
+	<!-- 이메일 관련 빈 설정 -->
+	<bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+	
+		<!-- 메일 보내주는 서버 -->
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="username" value="yesoe0502"/>
+		<property name="password" value="cbkjyuzmwljdlvzw"/>
+		
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+				
+				<prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+				<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="emailManager" class="com.edu.springshop.util.EmailManager"/>
 	
 </beans>

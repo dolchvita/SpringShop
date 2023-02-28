@@ -26,6 +26,8 @@
 <!-- summernote -->
 <link rel="stylesheet" href="/resources/admin/plugins/summernote/summernote-bs4.min.css">
 
+<!-- 제이쿼리 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 
 <!-- React -->
 <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>

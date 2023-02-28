@@ -2,6 +2,8 @@ package com.edu.springshop.admin.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class CategoryController {
 	private Logger logger=LoggerFactory.getLogger(this.getClass().getName());
 
 	@GetMapping("/category/main")
-	public ModelAndView getName() {
+	public ModelAndView getMain(HttpServletRequest request) {
 		List<Category> categoryList=categoryService.selectAll();
 		ModelAndView mav=new ModelAndView();
 		mav.addObject("categoryList", categoryList);

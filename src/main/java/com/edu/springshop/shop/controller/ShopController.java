@@ -23,7 +23,6 @@ public class ShopController {
 	@GetMapping("/shop/list")
 	public ModelAndView getList() {
 		List<Product> productList=productService.selectAll();
-
 		ModelAndView mav=new ModelAndView("shop/shop");
 		mav.addObject("productList", productList);
 
