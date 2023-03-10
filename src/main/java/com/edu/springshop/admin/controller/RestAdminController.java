@@ -39,13 +39,15 @@ public class RestAdminController {
 	}
 	
 	
-	@ExceptionHandler(AdminException.class)
-	public ResponseEntity<Message> handle(AdminException e){
-		Message message=new Message();
-		message.setMsg(e.getMessage());
-		ResponseEntity<Message> entity=new ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-		return entity;
-	}
+	// 로그인 실패시 예외객체를 던질 수 있을까?
+	
+	/*
+	 * @ExceptionHandler(AdminException.class) public ResponseEntity<Message>
+	 * handle(AdminException e){ Message message=new Message();
+	 * message.setMsg(e.getMessage()); ResponseEntity<Message> entity=new
+	 * ResponseEntity<Message>(message, HttpStatus.INTERNAL_SERVER_ERROR); return
+	 * entity; }
+	 */
 	
 
 	

@@ -27,20 +27,21 @@
 	<context:component-scan base-package="com.edu.springshop.admin.controller" />
 
 
-	<!-- 예외객체 -->
-	<beans:bean id="adminGlobalException" class="com.edu.springshop.aop.AdminGlobalException"/>
-
 
 	<!-- 관리자 로그인 체크 -->
 	<beans:bean id="adminLoginCheckAdvice" class="com.edu.springshop.aop.AdminLoginCheckAdvice"/>
 	<!-- 관점 등록 -->
-	<aop:config>
+<!-- 	<aop:config>
 		<aop:aspect id="adminAspect" ref="adminLoginCheckAdvice">
 		<aop:pointcut expression="execution(public * com.edu.springshop.admin.controller..*(..))" id="adminLoginCheckPointcut"/>
 		<aop:around method="sessionCheck" pointcut-ref="adminLoginCheckPointcut"/>
 		</aop:aspect>
-	</aop:config>
+	</aop:config> -->
 	
 	
+	
+	<!-- 예외객체 -->
+	<beans:bean class="com.edu.springshop.aop.RestAdminGlobalException" id="restAdminGlobalException"/>
+	<beans:bean class="com.edu.springshop.aop.AdminGlobalException" id="adminGlobalException"/>
 	
 </beans:beans>

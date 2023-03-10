@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 import com.edu.springshop.exception.AdminException;
 
+// 관리자와 관련된 요청마다 권한을 확인하는 객체
 public class AdminLoginCheckAdvice {
 	private Logger logger=LoggerFactory.getLogger(this.getClass().getName());
 	
@@ -43,8 +44,11 @@ public class AdminLoginCheckAdvice {
 		
 
 		String uri=request.getRequestURI();
+		// 로그인 폼과 로그인 요청시 제외!
 		if(
 				uri.equals("/admin/loginform")||
+				uri.equals("/admin/login")||
+				
 				uri.equals("/admin/rest/login/admin")
 		) {
 			// 예외 던지기!

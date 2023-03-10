@@ -5,22 +5,26 @@ import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.edu.springshop.domain.Admin;
 import com.edu.springshop.exception.AdminException;
+import com.edu.springshop.model.admin.AdminService;
 import com.edu.springshop.util.Message;
 
 @Controller
 public class AdminController {
 	private Logger logger=LoggerFactory.getLogger(this.getClass().getName());
-	
+	@Autowired
+	private AdminService adminService;
 	
 	
 	@GetMapping("/main")
@@ -48,6 +52,17 @@ public class AdminController {
 		return new ModelAndView("admin/login/loginform");
 	}
 	
+	
+	@PostMapping("/login")
+	public ModelAndView login(HttpServletRequest request, Admin admin) {
+		Admin obj=adminService.select(admin);
+		
+		HttpSession session=request.getSession();
+		session.setAttribute("admin", obj);
+		
+		ModelAndView mav=new ModelAndView("redirect:/admin/main");
+		return mav;
+	}
 	
 	
 	/*

@@ -35,20 +35,15 @@
 				<div class="col">
 					<form id="form1">
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter email" name="id">
+							<input type="text" class="form-control" placeholder="상담 메시지 입력" id="t_send">
 						</div>
 						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter password" name="pass">
+							<textarea class="form-control" id="t_receive"></textarea>
 						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter password" name="name">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Enter password" name="email">
-						</div>
+
 						
-						<button type="button" class="btn btn-primary" id="bt_regist">동기 가입</button>
-						<button type="button" class="btn btn-primary" id="bt_registAsync">비동기 가입</button>
+						<button type="button" class="btn btn-primary" id="bt_send">전송하기</button>
+
 					</form>
 				</div>
 			</div>
@@ -73,46 +68,58 @@
 	<%@ include file="../inc/footer_link.jsp" %>
 
 <script>
-	function registAsync(){
-		let formData=$("#form1").serialize();
+	let ws;
+	
+	// 웹소켓을 이용한 서버에 접속
+	function connect(){
+		ws=new WebSocket("ws://localhost:7777/chat");
 		
-		$.ajax({
-			url:"/rest/member",
-			type:"POST",
-			data:formData,
-			success:function(result, status, xhr){
-				alert(result.msg);
-			},
-			error:function(xhr, status, err){
-				let json=JSON.parse(xhr.responseText);
-				alert(json.msg);
-			}
+		ws.onopen=function(){
+			console.log("서버 접속됨");
+		}
+		
+		ws.onmessage=function(e){
+			console.log("서버가 보낸 데이터", e.data);
 			
-		});
+			// 서버가 보낸 메시지를 area에 누적!
+			$("#t_receive").append(e.data+"\n");
+			
+		}
+		
+		ws.onclose=function(){
+			console.log("서버접속 끊김");
+			
+			// 지정한 시간 뒤에 재접속 하는 재귀호출 메서드!
+			setTimout("connect()", 1000);
+		}
+		
+		ws.onerror=function(e){
+			console.log("에러 발생", ㄷ);
+			
+		}
 	}
 
-	function regist() {
-		$("#form1").attr({
-			action:"/member/regist",
-			method:"POST"
-		});
-		$("#form1").submit();
+ion sendMsg(){
+		let msg=$("#t_send").val();
+	
+	
+	// 서버에 메시지 전송하기
+	funct		ws.send(msg);
+		
+		$("#t_send").val("");		//입력값 초기화
 	}
 
+	
+	
 	$(function(){
-		$("#bt_registAsync").click(function(){
-			registAsync();
+		connect();
+		
+		$("#bt_send").click(function(){
+			sendMsg();
 		});
-		
-		
-		$("#bt_regist").click(function(){
-			regist();
-		});
-		
-		
+
 		
 	});
-
 </script>
 </body>
 

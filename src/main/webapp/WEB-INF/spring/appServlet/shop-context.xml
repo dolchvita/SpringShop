@@ -4,10 +4,12 @@
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+		http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/websocket https://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
@@ -29,9 +31,7 @@
 	
 	
 	<!-- Advice 등록 -->	
-
 	<beans:bean id="categoryAdvice" class="com.edu.springshop.aop.CategoryAdvice"/>
-	
 
 	<!-- Aspect 정의 -->
 	
@@ -45,8 +45,41 @@
 	
 	
 	<!-- Rest 요청에 대한 글로벌 예외를 처리할 빈 등록 -->
-<!-- 	<beans:bean id="restGlobalException" class="com.edu.springshop.aop.RestGlobalException"/> -->
+	<beans:bean class="com.edu.springshop.aop.RestShopGlobalException" id="restShopGlobalException"/>
+	<beans:bean class="com.edu.springshop.aop.ShopGlobalException" id="shopGlobalException"/>
 	
 	
+	<!-- 웹 소켓 핸들러 -->
+	<beans:bean class="com.edu.springshop.chat.ChatHandler" id="chatHandler"/>	
+	
+	<!-- 웹 소켓 설정 -->
+	<websocket:handlers>
+		<websocket:mapping handler="chatHandler" path="/chat"/>
+		<websocket:handshake-interceptors>
+			<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor" />
+		</websocket:handshake-interceptors>
+	</websocket:handlers>
+	
+	
+	
+	<!-- 구글 로그인 정보 관련 정보 등록 -->
+	
+	<beans:bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	
+		<!-- google cloud platform 에서 발급받은 것! -->		
+		<beans:constructor-arg value="407147823322-8e0hth42qg5lgm8tokgj9asuni138a61.apps.googleusercontent.com"/>
+		<beans:constructor-arg value="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"/>
+	</beans:bean>
+	
+	<beans:bean class="org.springframework.social.oauth2.OAuth2Parameters">
+		
+		<!-- ResourceOwner로부터 어떠한 정보를 수집할지 그 범위 설정 -->
+		<beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"/>
+		
+		<!-- ResourceOwner가 Callback 할 때 받을 웹사이트 URI -->
+		<beans:property name="redirectUri" value="http://localhost:7777/member/auth/google"/>
+	</beans:bean>
+	
+	<beans:bean class="com.edu.springshop.sns.GoogleLogin" id="googleLogin"/>
 	
 </beans:beans>

@@ -43,7 +43,8 @@
 				<!-- /.card-body -->
 				
 				<div class="card-footer">
-					<button type="button" class="btn btn-info" id="bt_login">로그인</button>
+					<button type="button" class="btn btn-info" id="bt_loginAsync">비동기 로그인</button>
+					<button type="button" class="btn btn-info" id="bt_login">동기 로그인</button>
 					<button type="submit" class="btn btn-default float-right">Cancel</button>
 				</div>
 				
@@ -57,7 +58,7 @@
 	<!-- ./wrapper -->
 	
 <script type="text/javascript">
-	function login(){
+	function loginAsync(){
 		let formData=$("#form1").serialize();
 		
 		$.ajax({
@@ -76,8 +77,26 @@
 			}
 		});
 	}
+	
+	function login(){
+		
+		$("#form1").attr({
+			action:"/admin/login",
+			method:"post"
+		});
+		
+		$("#form1").submit();
+	}
+	
 
 	$(function(){
+		
+		// 비동기 로그인
+		$("#bt_loginAsync").click(function(){
+			loginAsync();
+		});
+		
+		// 동기 로그인
 		$("#bt_login").click(function(){
 			login();
 		});

@@ -37,7 +37,7 @@ public class RestProductController {
 	// 상품 등록 요청 처리
 	@PostMapping("/product")
 	public Message regist(Product product, HttpServletRequest request) {
-		//logger.info("컨트롤러가 받은 상품~~~"+product);
+		logger.info("컨트롤러가 받은 상품~~~"+product);
 		
 		// 웹 환경과 관련된 코드이므로 , 컨트롤러의 책임이다!
 		ServletContext application=request.getSession().getServletContext();
