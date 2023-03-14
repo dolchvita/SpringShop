@@ -63,23 +63,87 @@
 	
 	
 	<!-- 구글 로그인 정보 관련 정보 등록 -->
-	
-	<beans:bean id="googleConnectionFactory" class="org.springframework.social.google.connect.GoogleConnectionFactory">
+	<beans:bean id="googleLogin" class="com.edu.springshop.sns.GoogleLogin">
+		<!-- 1-1) 아래 멤벼변수들은 모두 인증화면을 구현하기 위함 -->
+		
+		<!-- 인증화면 링크 URL -->
+		<beans:property name="endpoint" value="http://accounts.google.com/o/oauth2/v2/auth"/>
 	
 		<!-- google cloud platform 에서 발급받은 것! -->		
-		<beans:constructor-arg value="407147823322-8e0hth42qg5lgm8tokgj9asuni138a61.apps.googleusercontent.com"/>
-		<beans:constructor-arg value="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"/>
-	</beans:bean>
-	
-	<beans:bean class="org.springframework.social.oauth2.OAuth2Parameters">
+		<beans:property name="client_id" value="407147823322-8e0hth42qg5lgm8tokgj9asuni138a61.apps.googleusercontent.com"/>
+		<beans:property name="client_secrete" value="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"/>
 		
+		<!-- ResourceOwner가 Callback 할 때 받을 웹사이트 URI -->
+		<beans:property name="redirect_uri" value="http://localhost:7777/sns/google/callback"/>
+		
+		<!-- 콜백 받을 때, 구글이 우리에게 전달할 파라미터의 이름 (모든 sns 사업자가 같은 변수명을 쓴다. 정해진 것이다) -->
+		<beans:property name="response_type" value="code"/>
+
 		<!-- ResourceOwner로부터 어떠한 정보를 수집할지 그 범위 설정 -->
 		<beans:property name="scope" value="https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile"/>
 		
-		<!-- ResourceOwner가 Callback 할 때 받을 웹사이트 URI -->
-		<beans:property name="redirectUri" value="http://localhost:7777/member/auth/google"/>
+		
+		<!-- 2) 토큰 요청 관련 -->
+		<beans:property name="token_request_url" value="https://oauth2.googleapis.com/token"/>
+		<beans:property name="grant_type" value="authorization_code"/>
+				
+				
+		<!-- 3) 회원 정보 요청을 위한 url -->
+		<beans:property name="userinfo_url" value="https://www.googleapis.com/oauth2/v1/userinfo"/>
+				
 	</beans:bean>
 	
-	<beans:bean class="com.edu.springshop.sns.GoogleLogin" id="googleLogin"/>
+	
+	
+		<!-- 카카오 로그인 정보 관련 정보 등록 -->
+	<beans:bean id="kakao" class="com.edu.springshop.sns.KakaoLogin">
+		<!-- 1-1) 아래 멤벼변수들은 모두 인증화면을 구현하기 위함 -->
+		<beans:property name="endpoint" value="https://kauth.kakao.com/oauth/authorize"/>
+	
+		<beans:property name="client_id" value="1a2e74d901f9e20576ea87b9e4f86ded"/>
+		
+		<beans:property name="redirect_uri" value="http://localhost:7777/sns/kakao/callback"/>
+		
+		<beans:property name="response_type" value="code"/>
+
+		
+		<!-- 2) 토큰 요청 관련 -->
+		<beans:property name="token_request_url" value="https://kauth.kakao.com/oauth/token"/>
+		<beans:property name="grant_type" value="authorization_code"/>
+				
+				
+		<!-- 3) 회원 정보 요청을 위한 url -->
+		<beans:property name="userinfo_url" value="https://kapi.kakao.com/v2/user/me"/>
+				
+	</beans:bean>
+	
+	
+	
+		<!-- 네이버 로그인 정보 관련 정보 등록 -->
+	<beans:bean id="naverLogin" class="com.edu.springshop.sns.NaverLogin">
+		<!-- 1-1) 아래 멤벼변수들은 모두 인증화면을 구현하기 위함 -->
+		<beans:property name="endpoint" value="https://nid.naver.com/oauth2.0/authorize"/>
+	
+		<beans:property name="client_id" value="XrYdeEqCx98RmEpVzZ6x"/>
+		<beans:property name="client_secret" value="WeT3xeJOQk"/>
+		
+		<beans:property name="redirect_uri" value="http://localhost:7777/sns/naver/callback"/>
+		<beans:property name="response_type" value="code"/>
+
+		<beans:property name="state" value="naver_login_by_zino"/>
+
+		
+		<!-- 2) 토큰 요청 관련 -->
+		<beans:property name="token_request_url" value="https://nid.naver.com/oauth2.0/token"/>
+		<beans:property name="grant_type" value="authorization_code"/>
+				
+				
+		<!-- 3) 회원 정보 요청을 위한 url -->
+		<beans:property name="userinfo_url" value="https://openapi.naver.com/v1/nid/me"/>
+				
+	</beans:bean>
+	
+	
+	
 	
 </beans:beans>

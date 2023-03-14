@@ -79,7 +79,8 @@
 			<version>1.4</version>
 		</dependency>
 
-	
+		
+		<!-- 자바 객체와 제이슨을 변환해주는 객체 -->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
@@ -128,14 +129,8 @@
 			<artifactId>spring-websocket</artifactId>
 			<version>4.3.30.RELEASE</version>
 		</dependency>
-
-		
-		<!-- 스프링 구글 로그인 jar -->
-		<dependency>
-			<groupId>org.springframework.social</groupId>
-			<artifactId>spring-social-google</artifactId>
-			<version>1.0.0.RELEASE</version>
-		</dependency>
+				
+				
 				
 		<!-- AspectJ -->
 		<dependency>

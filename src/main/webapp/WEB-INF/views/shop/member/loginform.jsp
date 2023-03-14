@@ -41,7 +41,6 @@
 						<button type="button" class="btn btn-secondary" id="bt_regist">신규가입</button>
 						
 						<button type="button" class="btn btn-primary" id="bt_google">구글 로그인</button>
-						<button type="button" class="btn btn-primary" id="bt_googleAuth">구글 인증</button>
 						
 						<button type="button" class="btn btn-success" id="bt_naver">네이버 로그인</button>
 						<button type="button" class="btn btn-warning" id="bt_kakao">카카오 로그인</button>
@@ -70,29 +69,40 @@
 
 <script>
 
-	
+	function goToAuthForm(sns){
+		$.ajax({
+			url:"/rest/member/authform/"+sns,
+			type:"GET",
+			success:function(result, status, xhr){
+				console.log("인증주소는 ", result.msg);
+				location.href= result.msg;
+				
+			}
+			
+		});
+		
+	}
 
 	$(function(){
 		
 		// 구글 로그인
 		$("#bt_google").click(function(){
-			location.href="/member/authform/google";
-			
-			
-/*			$.ajax({
-				url:"/member/authform/google",
-				type:"GET", 
-				success:function(result, status, xhr){
-					//console.log(result.msg);
-					// 인증화면 주소 요청
-					location.href=result.msg;
-				}		
-			});*/
-			
+			// sns 사업자가 미리 만들어놓은 인증화면 주소 요청
+			goToAuthForm("google");
+			// 따라서 주소 및 파라미터명이 이미 정해져 있다
+		
 		});
-			
-		$("#bt_googleAuth").click(function(){
-			location.href="<%=request.getAttribute("url")%>";
+		
+		// 카카오 로그인
+		$("#bt_kakao").click(function(){
+			goToAuthForm("kakao");
+		
+		});
+		
+		// 네이버 로그인
+		$("#bt_naver").click(function(){
+			goToAuthForm("naver");
+		
 		});
 
 
